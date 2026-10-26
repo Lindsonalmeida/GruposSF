@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://lindsonalmeida.github.io/GruposSF/sitemap.xml
