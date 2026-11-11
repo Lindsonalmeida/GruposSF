@@ -86,7 +86,7 @@ def page(path, title, desc, h1, body, crumbs, extra_ld):
 {header}
 <main>
 <section class="hero ph"><div class="wrap"><div class="bc">{bc}</div><h1>{h1}</h1><p class="lead">{html.escape(desc)}</p>
-<div class="ctas"><a class="btn btn-wpp wa" href="#">Pedir orçamento no WhatsApp</a><a class="btn btn-ghost" href="tel:+5598989153929">Ligar: (98) 98915-3929</a></div></div></section>
+<div class="ctas"><a class="btn btn-wpp wa" href="#">Pedir orçamento no WhatsApp</a><a class="btn btn-ghost" href="tel:+5598920105710">Ligar: (98) 92010-5710</a></div></div></section>
 <section><div class="wrap art">{body}</div></section>
 </main>
 {footer}
@@ -113,7 +113,7 @@ for s in SERV:
     ld = [{"@type": "Service", "name": s['nome'], "serviceType": s['nome'], "provider": empresa, "image": f"{BASE}/img/{s['img']}.webp",
            "areaServed": [{"@type": "City", "name": c['nome']} for c in CID]},
           {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in s['faq']]}]
-    urls.append(page(s['slug'], f"{s['nome']} em São Luís MA | Desentupidora SF", f"{s['nome']} em São Luís – MA com equipamento profissional e sem quebra-quebra. Orçamento grátis pelo WhatsApp (98) 98915-3929.",
+    urls.append(page(s['slug'], f"{s['nome']} em São Luís MA | Desentupidora SF", f"{s['nome']} em São Luís – MA com equipamento profissional e sem quebra-quebra. Orçamento grátis pelo WhatsApp (98) 92010-5710.",
                      f"{s['nome']} em <em>São Luís</em>", body, [('Início', '/'), (s['nome'], f"/{s['slug']}/")], ld))
 
 for c in CID:
@@ -122,10 +122,10 @@ for c in CID:
 <p>É só chamar no WhatsApp, mandar uma foto ou vídeo do problema e receber o orçamento sem compromisso.</p>
 <h2>Serviços em <span>{c['nome']}</span></h2>{''.join(f'<p><a href="/{s["slug"]}/" style="color:var(--orange);font-weight:800">{s["nome"]} em {c["nome"]}</a>: {s["intro"].split("?")[0]}?</p>' for s in SERV)}
 <h2>Bairros atendidos em <span>{c['nome']}</span></h2><div class="bairros" style="justify-content:flex-start">{''.join(f'<span>{b}</span>' for b in c['bairros'])}</div>
-<div class="band" style="margin-top:40px"><div><h2>Entupiu em {c['nome']}?</h2><p>Fale agora com a Desentupidora SF: (98) 98915-3929</p></div><a class="btn wa" href="#">Chamar no WhatsApp</a></div>
+<div class="band" style="margin-top:40px"><div><h2>Entupiu em {c['nome']}?</h2><p>Fale agora com a Desentupidora SF: (98) 92010-5710</p></div><a class="btn wa" href="#">Chamar no WhatsApp</a></div>
 <h2>Outras <span>cidades</span></h2>{links_cid}'''
     ld = [{"@type": "Service", "name": f"Desentupidora em {c['nome']}", "serviceType": "Desentupimento", "provider": empresa, "areaServed": {"@type": "City", "name": c['nome']}}]
-    urls.append(page(c['slug'], f"Desentupidora em {c['nome']} MA | Desentupidora SF", f"Desentupidora em {c['nome']} – MA: pia, ralo, vaso, esgoto, caixa de gordura e calhas sem quebra-quebra. Orçamento grátis: (98) 98915-3929.",
+    urls.append(page(c['slug'], f"Desentupidora em {c['nome']} MA | Desentupidora SF", f"Desentupidora em {c['nome']} – MA: pia, ralo, vaso, esgoto, caixa de gordura e calhas sem quebra-quebra. Orçamento grátis: (98) 92010-5710.",
                      f"Desentupidora em <em>{c['nome']}</em>", body, [('Início', '/'), (f"Desentupidora em {c['nome']}", f"/{c['slug']}/")], ld))
 
 open('sitemap.xml', 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' +
