@@ -96,6 +96,10 @@ def page(path, title, desc, h1, body, crumbs, extra_ld):
     return url
 
 empresa = {"@id": f"{BASE}/#empresa"}
+BAIRRO_SLUG = {'Cohama': 'desentupidora-cohama', 'Turu': 'desentupidora-turu', 'Calhau': 'desentupidora-calhau', 'Cohab': 'desentupidora-cohab',
+               'Renascença': 'desentupidora-renascenca', 'Centro': 'desentupidora-centro', 'Vinhais': 'desentupidora-vinhais', 'Anjo da Guarda': 'desentupidora-anjo-da-guarda'}
+def links_bairros(atual=''):
+    return '<div class="links">' + ''.join(f'<a href="/{v}/">{k}</a>' for k, v in BAIRRO_SLUG.items() if v != atual) + '</div>'
 links_serv = '<div class="links">' + ''.join(f'<a href="/{s["slug"]}/">{s["nome"]}</a>' for s in SERV) + '</div>'
 links_cid = '<div class="links">' + ''.join(f'<a href="/{c["slug"]}/">Desentupidora em {c["nome"]}</a>' for c in CID) + '</div>'
 urls = [BASE + '/']
@@ -113,7 +117,7 @@ for s in SERV:
     ld = [{"@type": "Service", "name": s['nome'], "serviceType": s['nome'], "provider": empresa, "image": f"{BASE}/img/{s['img']}.webp",
            "areaServed": [{"@type": "City", "name": c['nome']} for c in CID]},
           {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in s['faq']]}]
-    urls.append(page(s['slug'], (s.get('tit') or f"{s['nome']} em São Luís MA | Desentupidora SF"), f"{s['nome']} em São Luís – MA com equipamento profissional e sem quebra-quebra. Orçamento grátis pelo WhatsApp (98) 92010-5710.",
+    urls.append(page(s['slug'], (s.get('tit') or f"{s['nome']} em São Luís MA | Desentupidora SF"), f"{s['nome']} em São Luís – MA com equipamento profissional e sem quebra-quebra. Orçamento grátis: (98) 92010-5710.",
                      f"{s['nome']} em <em>São Luís</em>", body, [('Início', '/'), (s['nome'], f"/{s['slug']}/")], ld))
 
 for c in CID:
@@ -121,12 +125,63 @@ for c in CID:
 <p>A Desentupidora SF atende {c['nome']} com desentupimento de pias, ralos, vasos sanitários, esgoto, caixas de gordura e calhas. Usamos máquinas profissionais que chegam ao entupimento pela própria tubulação, sem quebrar piso nem parede.</p>
 <p>É só chamar no WhatsApp, mandar uma foto ou vídeo do problema e receber o orçamento sem compromisso.</p>
 <h2>Serviços em <span>{c['nome']}</span></h2>{''.join(f'<p><a href="/{s["slug"]}/" style="color:var(--orange);font-weight:800">{s["nome"]} em {c["nome"]}</a>: {s["intro"].split("?")[0]}?</p>' for s in SERV)}
-<h2>Bairros atendidos em <span>{c['nome']}</span></h2><div class="bairros" style="justify-content:flex-start">{''.join(f'<span>{b}</span>' for b in c['bairros'])}</div>
+<h2>Bairros atendidos em <span>{c['nome']}</span></h2><div class="bairros" style="justify-content:flex-start">{''.join((f'<a href="/{BAIRRO_SLUG[b]}/">{b}</a>' if b in BAIRRO_SLUG else f'<span>{b}</span>') for b in c['bairros'])}</div>
 <div class="band" style="margin-top:40px"><div><h2>Entupiu em {c['nome']}?</h2><p>Fale agora com a Desentupidora SF: (98) 92010-5710</p></div><a class="btn wa" href="#">Chamar no WhatsApp</a></div>
 <h2>Outras <span>cidades</span></h2>{links_cid}'''
     ld = [{"@type": "Service", "name": f"Desentupidora em {c['nome']}", "serviceType": "Desentupimento", "provider": empresa, "areaServed": {"@type": "City", "name": c['nome']}}]
     urls.append(page(c['slug'], f"Desentupidora em {c['nome']} MA | Desentupidora SF", f"Desentupidora em {c['nome']} – MA: pia, ralo, vaso, esgoto, caixa de gordura e calhas sem quebra-quebra. Orçamento grátis: (98) 92010-5710.",
                      f"Desentupidora em <em>{c['nome']}</em>", body, [('Início', '/'), (f"Desentupidora em {c['nome']}", f"/{c['slug']}/")], ld))
+
+# ---------- páginas de bairro de São Luís (texto próprio em cada uma) ----------
+BAIRROS = [
+ dict(slug='desentupidora-cohama', nome='Cohama', art='no', vizinhos=['Vinhais', 'Turu', 'Cohafuma'],
+  p1='O Cohama nasceu como conjunto habitacional e hoje mistura casas antigas, reformadas várias vezes, com prédios e comércio ao longo da avenida principal. Em casa reformada, é comum a tubulação nova ter sido ligada à antiga, e é nesse encontro que a gordura e os resíduos costumam parar.',
+  p2='Para quem mora no Cohama, o caminho é simples: mande pelo WhatsApp uma foto da pia, do ralo ou da caixa que está dando problema. A equipe avalia, passa o orçamento sem compromisso e, combinado o serviço, desentope pela própria tubulação, sem quebrar o piso que você acabou de reformar.',
+  foco=['desentupimento-de-pia', 'limpeza-de-caixa-de-gordura', 'desentupimento-de-esgoto']),
+ dict(slug='desentupidora-turu', nome='Turu', art='no', vizinhos=['Planalto Turu', 'Cohama', 'Olho d\'Água'],
+  p1='O Turu cresceu rápido, com muitas casas térreas, quintais e condomínios fechados novos. Em casa com quintal, a chuva leva areia e folhas para os ralos externos e para as caixas de passagem, e o esgoto começa a voltar justamente quando mais chove.',
+  p2='No Turu, a Desentupidora SF atende casas e condomínios: limpa ralos de quintal e de área de serviço, desentope a rede até a caixa de inspeção e desobstrui calhas antes do período de chuvas. Mande uma foto ou um vídeo pelo WhatsApp e receba o orçamento sem compromisso.',
+  foco=['desentupimento-de-ralo', 'desentupimento-de-calhas', 'desentupimento-de-esgoto']),
+ dict(slug='desentupidora-calhau', nome='Calhau', art='no', vizinhos=['Ponta d\'Areia', 'Renascença', 'Olho d\'Água'],
+  p1='No Calhau, perto da orla, a maior parte dos chamados vem de apartamentos e de casas grandes de condomínio. Em prédio, o entupimento de um andar pode afetar a coluna inteira, e a areia da praia que entra nos ralos de varanda e de área de serviço piora a situação.',
+  p2='Para condomínios e moradores do Calhau, a Desentupidora SF faz o desentupimento com máquina pela própria tubulação, sem quebrar porcelanato, e atende também a área comum do prédio. Fale com a gente pelo WhatsApp, mande a foto do problema e receba o orçamento grátis.',
+  foco=['desentupimento-de-ralo', 'desentupimento-de-vaso-sanitario', 'desentupimento-de-esgoto']),
+ dict(slug='desentupidora-cohab', nome='Cohab', art='na', vizinhos=['Cohatrac', 'Bequimão', 'Anil'],
+  p1='A Cohab é um dos conjuntos habitacionais mais antigos de São Luís. Muitas casas foram ampliadas ao longo dos anos, com cozinha nova, banheiro a mais e puxadinho no fundo, e a rede de esgoto original passou a receber mais água do que foi pensada para levar.',
+  p2='Na Cohab, a Desentupidora SF atende pia, vaso, ralo e esgoto de casas e de pequenos comércios do bairro. A máquina de cabo rotativo segue pelo cano até o ponto entupido, sem abrir o chão. É só chamar no WhatsApp e mandar uma foto para receber o orçamento sem compromisso.',
+  foco=['desentupimento-de-esgoto', 'desentupimento-de-vaso-sanitario', 'desentupimento-de-pia']),
+ dict(slug='desentupidora-renascenca', nome='Renascença', art='na', vizinhos=['Jardim Renascença', 'Calhau', 'São Francisco'],
+  p1='A Renascença reúne prédios residenciais, clínicas, escritórios, bares e restaurantes. Em cozinha de restaurante, a caixa de gordura enche rápido e, quando passa do ponto, a pia trava e o cheiro chega ao salão. Nos prédios, o problema mais comum é a coluna de esgoto.',
+  p2='Para comércios e condomínios da Renascença, a Desentupidora SF faz a limpeza da caixa de gordura, o desentupimento de pias industriais e da rede de esgoto, com horário combinado para atrapalhar o menos possível o seu atendimento. Peça o orçamento grátis pelo WhatsApp.',
+  foco=['limpeza-de-caixa-de-gordura', 'desentupimento-de-pia', 'desentupimento-de-esgoto']),
+ dict(slug='desentupidora-centro', nome='Centro', art='no', vizinhos=['São Francisco', 'Anil', 'Anjo da Guarda'],
+  p1='No Centro de São Luís, muitos imóveis são casarões antigos, alguns tombados, com tubulação de décadas atrás e caixas de passagem escondidas sob o piso original. Aqui, quebrar para procurar o entupimento não é uma boa ideia: o piso e as paredes são parte do valor do imóvel.',
+  p2='Por isso, no Centro, o trabalho da Desentupidora SF é feito pela própria tubulação, com máquina de cabo rotativo, para lojas, escritórios, pousadas e residências. Mande uma foto ou um vídeo do problema pelo WhatsApp e receba o orçamento sem compromisso.',
+  foco=['desentupimento-de-esgoto', 'desentupimento-de-calhas', 'desentupimento-de-pia']),
+ dict(slug='desentupidora-vinhais', nome='Vinhais', art='no', vizinhos=['Cohama', 'Recanto dos Vinhais', 'Cohafuma'],
+  p1='O Vinhais tem ruas de casas de conjunto e muitos condomínios de prédios baixos. Nos condomínios, o entupimento costuma aparecer primeiro no apartamento do térreo, que recebe o esgoto de quem mora em cima, e o ralo do banheiro ou da área de serviço começa a voltar água.',
+  p2='No Vinhais, a Desentupidora SF atende moradores e síndicos: desentope ralos e vasos, limpa a rede até a caixa de inspeção do condomínio e mostra onde estava o entupimento. Chame no WhatsApp, mande a foto e receba o orçamento grátis.',
+  foco=['desentupimento-de-ralo', 'desentupimento-de-vaso-sanitario', 'desentupimento-de-esgoto']),
+ dict(slug='desentupidora-anjo-da-guarda', nome='Anjo da Guarda', art='no', vizinhos=['Vila Embratel', 'Sá Viana', 'Centro'],
+  p1='O Anjo da Guarda, na área Itaqui-Bacanga, é um bairro de casas, muitas construídas aos poucos pelas próprias famílias, e de comércio de rua movimentado. Em obra feita por etapas, é comum o cano ter curvas a mais ou caimento fraco, e aí a gordura e a areia se acumulam no caminho.',
+  p2='No Anjo da Guarda, a Desentupidora SF desentope pia, ralo, vaso e esgoto de casas e de comércios, sem quebra-quebra, e explica o que causou o entupimento para ele não voltar logo. Fale pelo WhatsApp e mande uma foto para receber o orçamento sem compromisso.',
+  foco=['desentupimento-de-pia', 'desentupimento-de-ralo', 'desentupimento-de-esgoto']),
+]
+SERV_POR_SLUG = {s['slug']: s for s in SERV}
+for b in BAIRROS:
+    nb, art = b['nome'], b['art']
+    servs = ''.join(f'<p><a href="/{k}/" style="color:var(--orange);font-weight:800">{SERV_POR_SLUG[k]["nome"]} {art} {nb}</a>: {SERV_POR_SLUG[k]["causas"][0].lower()} é uma das causas que mais vemos.</p>' for k in b['foco'])
+    viz = ', '.join(b['vizinhos'])
+    body = f'''<h2>Desentupidora {art} {nb} <span>sem quebra-quebra</span></h2><p>{b['p1']}</p><p>{b['p2']}</p>
+<h2>Serviços mais pedidos {art} <span>{nb}</span></h2>{servs}
+<h2>Bairros <span>vizinhos</span></h2><p>Também atendemos {viz} e os outros bairros de São Luís.</p>{links_bairros(b['slug'])}
+<div class="band" style="margin-top:40px"><div><h2>Entupiu {art} {nb}?</h2><p>Fale agora com a Desentupidora SF: (98) 92010-5710</p></div><a class="btn wa" href="#">Chamar no WhatsApp</a></div>
+<h2>Todos os <span>serviços</span></h2>{links_serv}'''
+    ld = [{"@type": "Service", "name": f"Desentupidora {art} {nb}, São Luís", "serviceType": "Desentupimento", "provider": empresa,
+           "areaServed": {"@type": "Place", "name": f"{nb}, São Luís - MA", "containedInPlace": {"@type": "City", "name": "São Luís"}}}]
+    urls.append(page(b['slug'], f"Desentupidora {art} {nb}, São Luís MA | SF",
+                     f"Desentupidora {art} {nb}, em São Luís – MA: pia, ralo, vaso, esgoto e caixa de gordura sem quebra-quebra. Orçamento grátis: (98) 92010-5710.",
+                     f"Desentupidora {art} <em>{nb}</em>", body, [('Início', '/'), ('Desentupidora em São Luís', '/desentupidora-sao-luis/'), (f"Desentupidora {art} {nb}", f"/{b['slug']}/")], ld))
 
 open('sitemap.xml', 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' +
     ''.join(f'<url><loc>{u}</loc><changefreq>monthly</changefreq><priority>{"1.0" if u == BASE + "/" else "0.8"}</priority></url>' for u in urls) + '</urlset>\n')
