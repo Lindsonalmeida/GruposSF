@@ -24,7 +24,7 @@ SERV = [
   como='Abrimos a grelha, limpamos o sifão do ralo e passamos a máquina desentupidora pela tubulação até a caixa de passagem. Assim o ralo volta a escoar e o cheiro vai embora.',
   faq=[('Por que o ralo do banheiro tem mau cheiro?', 'Geralmente o sifão está sujo ou seco, ou há resíduos parados no cano. A limpeza com máquina resolve as duas coisas.'),
        ('Precisa quebrar o piso para desentupir ralo?', 'Na maioria dos casos, não. A máquina passa pelo próprio ralo.')]),
- dict(slug='desentupimento-de-vaso-sanitario', nome='Desentupimento de vaso sanitário', img='desentupimento-de-vaso-sanitario', kw='desentupimento de vaso sanitário em São Luís',
+ dict(slug='desentupimento-de-vaso-sanitario', tit='Desentupir vaso sanitário em São Luís MA | SF', nome='Desentupimento de vaso sanitário', img='desentupimento-de-vaso-sanitario', kw='desentupimento de vaso sanitário em São Luís',
   intro='Vaso entupido, transbordando ou com a descarga fraca? A Desentupidora SF desentope vasos sanitários em São Luís, na maioria das vezes sem tirar a louça do lugar.',
   causas=['Papel higiênico em excesso', 'Lenço umedecido, absorvente e fio dental', 'Objetos que caíram no vaso', 'Entupimento na rede de esgoto depois do vaso'],
   como='Usamos uma mola própria para vaso, que passa pela curva da louça sem riscar. Se o entupimento estiver mais à frente, seguimos com a máquina pela rede de esgoto até a caixa.',
@@ -36,7 +36,7 @@ SERV = [
   como='Abrimos as caixas de inspeção, localizamos o trecho entupido e usamos máquina de cabo rotativo, que alcança longas distâncias sem quebrar o piso. No final, verificamos o escoamento em todas as caixas.',
   faq=[('Vocês atendem esgoto de condomínio e empresa?', 'Sim. Atendemos residências, condomínios, restaurantes, lojas e empresas.'),
        ('A máquina alcança tubulações longas?', 'Sim. O cabo rotativo chega a trechos longos da rede, sem precisar abrir o piso.')]),
- dict(slug='limpeza-de-caixa-de-gordura', nome='Limpeza e desentupimento de caixa de gordura', img='limpeza-caixa-de-gordura', kw='limpeza de caixa de gordura em São Luís',
+ dict(slug='limpeza-de-caixa-de-gordura', tit='Limpeza de caixa de gordura em São Luís | SF', nome='Limpeza e desentupimento de caixa de gordura', img='limpeza-caixa-de-gordura', kw='limpeza de caixa de gordura em São Luís',
   intro='Caixa de gordura cheia, transbordando ou com cheiro forte? A Desentupidora SF faz limpeza e desentupimento de caixa de gordura em São Luís para casas, restaurantes e condomínios.',
   causas=['Óleo e gordura da cozinha', 'Restos de comida que descem pela pia', 'Falta de limpeza periódica', 'Cano de saída da caixa entupido'],
   como='Retiramos a gordura acumulada, limpamos a caixa e desentupimos os canos de entrada e de saída. Depois orientamos sobre o intervalo ideal para a próxima limpeza.',
@@ -113,7 +113,7 @@ for s in SERV:
     ld = [{"@type": "Service", "name": s['nome'], "serviceType": s['nome'], "provider": empresa, "image": f"{BASE}/img/{s['img']}.webp",
            "areaServed": [{"@type": "City", "name": c['nome']} for c in CID]},
           {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in s['faq']]}]
-    urls.append(page(s['slug'], f"{s['nome']} em São Luís MA | Desentupidora SF", f"{s['nome']} em São Luís – MA com equipamento profissional e sem quebra-quebra. Orçamento grátis pelo WhatsApp (98) 92010-5710.",
+    urls.append(page(s['slug'], (s.get('tit') or f"{s['nome']} em São Luís MA | Desentupidora SF"), f"{s['nome']} em São Luís – MA com equipamento profissional e sem quebra-quebra. Orçamento grátis pelo WhatsApp (98) 92010-5710.",
                      f"{s['nome']} em <em>São Luís</em>", body, [('Início', '/'), (s['nome'], f"/{s['slug']}/")], ld))
 
 for c in CID:
